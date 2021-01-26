@@ -1,8 +1,9 @@
-FROM tiangolo/uvicorn-gunicorn:python3.7
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 
-RUN pip install --no-cache-dir fastapi
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
 
 COPY ./app /app
+COPY ./models /models
 
-#CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
-
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-c", "/gunicorn_conf.py", "main:app"]

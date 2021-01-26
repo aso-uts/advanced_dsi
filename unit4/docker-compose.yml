@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+    jupyter:
+        restart: always
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        container_name: jupyter_docker
+        ports:
+            - "8888:8888"
+        environment:
+            - JUPYTER_ENABLE_LAB=yes
+            - MLFLOW_TRACKING_URI='http://mlflow:5000'
+        volumes:
+            - ../adv_dsi_lab_4:/home/jovyan/work
+        depends_on:
+            - mlflow
+
+    mlflow:
+        restart: always
+        build:
+            context: .
+            dockerfile: mlflow/Dockerfile
+        image: mlflow_server
+        container_name: mlflow_server
+        ports:
+            - "5000:5000"
+        volumes:
+            - ./mlflow/mlruns:/mlruns
+            - ./mlflow/mlstore:/mlstore
+
+volumes:
+    adv_dsi_lab_4:
+    mlruns:
+    mlstore:

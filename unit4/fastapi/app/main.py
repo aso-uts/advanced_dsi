@@ -18,7 +18,7 @@ async def healthcheck():
     return 'GMM Clustering is all ready to go!'
 
 
-@app.get("/mall/customers/segmentation/params")
+@app.get("/mall/customers/segmentation")
 def predict(genre: str,	age: int, income: int, spending: int):
     features = {
         'Gender': [genre],
