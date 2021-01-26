@@ -1,8 +1,11 @@
-from typing import Optional
-
 from fastapi import FastAPI
+from starlette.responses import JSONResponse
+from joblib import load
+import pandas as pd
 
 app = FastAPI()
+
+gmm_pipe = load('../models/gmm_pipeline.joblib')
 
 
 @app.get("/")
@@ -10,10 +13,20 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+@app.get('/health', status_code=200)
+async def healthcheck():
+    return 'GMM Clustering is all ready to go!'
 
-@app.put("/items/{item_id}")
-def create_item(item_id: int, item: Item):
-    return {"item_name": item.name, "item_id": item_id}
+
+@app.get("/mall/customers/segmentation/params")
+def predict(genre: str,	age: int, income: int, spending: int):
+    features = {
+        'Gender': [genre],
+        'Age': [age],
+        'Annual Income (k$)': [income],
+        'Spending Score (1-100)': [spending]
+    }
+
+    obs = pd.DataFrame(features)
+    pred = gmm_pipe.predict(obs)
+    return JSONResponse(pred.tolist())
