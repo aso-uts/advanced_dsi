@@ -27,8 +27,8 @@ services:
         ports:
             - "5000:5000"
         volumes:
-            - ./mlflow/mlruns:/mlruns
-            - ./mlflow/mlstore:/mlstore
+            - ./mlflow/mlruns:/mlflow/mlruns
+            - ./mlflow/mlstore:/mlflow/mlstore
 
 volumes:
     adv_dsi_lab_4:
