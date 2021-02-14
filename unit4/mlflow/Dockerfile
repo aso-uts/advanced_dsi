@@ -2,6 +2,8 @@ FROM python:3.7-stretch
 
 RUN pip install mlflow==1.13
 
+RUN pip install psycopg2-binary==2.8.5
+
 RUN mkdir /mlflow/
 RUN mkdir /mlflow/mlstore/
 RUN mkdir /mlflow/mlruns/
