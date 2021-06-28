@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     postgres:
-        image: postgres:11
+        image: postgres:13
         restart: always
         environment:
             - POSTGRES_USER=mlflow
@@ -14,7 +14,7 @@ services:
         restart: always
         build:
             context: .
-            dockerfile: ./Dockerfile
+            dockerfile: ../Dockerfile
         container_name: jupyter_docker
         ports:
             - "8888:8888"
@@ -31,7 +31,7 @@ services:
         restart: always
         build:
             context: .
-            dockerfile: mlflow/Dockerfile
+            dockerfile: .
         container_name: mlflow_server
         ports:
             - "5000:5000"
