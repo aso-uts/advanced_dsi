@@ -22,9 +22,9 @@ services:
             - JUPYTER_ENABLE_LAB=yes
             - MLFLOW_TRACKING_URI='http://mlflow:5000'
         volumes:
-            - ../adv_dsi_lab_4:/home/jovyan/work
-            - ../adv_dsi/src:/home/jovyan/work/src
-            - ./mlflow/mlruns:/mlflow/mlruns
+            - ~/Projects/adv_dsi/adv_dsi_lab_4:/home/jovyan/work
+            - ~/Projects/adv_dsi/src:/home/jovyan/work/src
+            - ~/Projects/adv_dsi/adv_dsi_lab_4/mlflow/mlruns:/mlflow/mlruns
         depends_on: 
             - mlflow
     mlflow:
@@ -36,7 +36,7 @@ services:
         ports:
             - "5000:5000"
         volumes:
-            - ./mlflow/mlruns:/mlflow/mlruns
+            - ~/Projects/adv_dsi/adv_dsi_lab_4/mlflow/mlruns:/mlflow/mlruns
         depends_on:
             - postgres
         command: mlflow server --host 0.0.0.0 --backend-store-uri postgresql+psycopg2://mlflow:mlflow@postgres:5432/mlflow --default-artifact-root /mlflow/mlruns
